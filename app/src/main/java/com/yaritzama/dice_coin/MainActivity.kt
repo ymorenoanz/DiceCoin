@@ -3,23 +3,24 @@ package com.yaritzama.dice_coin
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.compose.animation.*
 import androidx.compose.animation.core.*
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.rotate
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.input.key.Key.Companion.Tab
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.semantics.Role.Companion.Tab
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.core.graphics.rotationMatrix
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.yaritzama.MainViewContainerState
 import com.yaritzama.dice_coin.ui.theme.Dice_CoinTheme
@@ -68,29 +69,35 @@ private fun Header(modifier: Modifier= Modifier, vm: MainViewModel) {
         Tabs(
             title = "Roll a dice", modifier = Modifier
                 .weight(1f)
-                .background(Color.DarkGray) , isSelected = viewState.value == MainViewContainerState.ViewOne
+                .background(Color.White)
+                .clip(RoundedCornerShape(50)) ,
+            isSelected = viewState.value == MainViewContainerState.ViewOne
         ) {
             vm.switchViews(MainViewContainerState.ViewOne)
         }
         Tabs(
             title = "Flip a coin", modifier = Modifier
                 .weight(1f)
-                .background(Color.DarkGray) , isSelected = viewState.value == MainViewContainerState.ViewTwo
-        ) {
+                .background(Color.White)
+                .clip(RoundedCornerShape(50)),
+            isSelected = viewState.value == MainViewContainerState.ViewTwo) {
             vm.switchViews(MainViewContainerState.ViewTwo)
         }
     }
 }
 
 @Composable
-fun Tabs(modifier: Modifier = Modifier, title: String, isSelected : Boolean, onClick : () -> Unit) {
-
+fun Tabs(modifier: Modifier = Modifier, title: String, isSelected : Boolean, onClick : () -> Unit)
+{
     Box(modifier = modifier
         .clickable {
             onClick.invoke()
         }
-        .background(if (isSelected) Color.Green else Color.Blue)
-        .height(60.dp)) {
+        .background(if (isSelected) Color.Magenta
+        else Color(0xff1E76DA))
+        .height(60.dp)
+        .padding(vertical = 4.dp, horizontal = 8.dp)
+        .clip(RoundedCornerShape(50)).padding(4.dp)) {
         Text(text = title, modifier = Modifier.align(Alignment.Center), color = Color.White)
     }
 }
@@ -113,7 +120,9 @@ fun DiceWithButtonAndImage( modifier : Modifier = Modifier)
     {
         Image(painterResource(imageResource), contentDescription = result.toString())
         Spacer(modifier = Modifier.height(16.dp))
-        Button(onClick = { result = (1..6).random()}) {
+        Button(onClick = { result = (1..6).random()},
+            shape = RoundedCornerShape(50.dp),
+            modifier = Modifier.height(70.dp).width(140.dp)) {
             Text(stringResource(R.string.roll))
         }
     }
@@ -139,7 +148,7 @@ fun FlipCoin(modifier : Modifier = Modifier){
         else -> R.drawable.coin_tail
     }
 
-    //Animation for rotation
+    /*//Animation for rotation
     val infiniteTransition = rememberInfiniteTransition()
     val angle by infiniteTransition.animateFloat(
         initialValue = 0f,
@@ -147,8 +156,7 @@ fun FlipCoin(modifier : Modifier = Modifier){
         animationSpec =
         infiniteRepeatable(tween(durationMillis = 1000,
             delayMillis = 1000, easing = LinearEasing),
-            RepeatMode.Restart))
-
+            RepeatMode.Restart))*/
 
     Column(modifier = modifier,
         horizontalAlignment = Alignment.CenterHorizontally)
@@ -160,7 +168,8 @@ fun FlipCoin(modifier : Modifier = Modifier){
                 //.rotate(angle)
         )
         Spacer(modifier = Modifier.height(16.dp))
-        Button(onClick = { resultCoin = (1..2).random()}) {
+        Button(onClick = { resultCoin = (1..2).random()},
+            modifier = Modifier.height(70.dp).width(140.dp).background(Color(0xffa094b7))) {
             Text(stringResource(R.string.flip))
         }
     }

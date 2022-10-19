@@ -1,5 +1,5 @@
 <resources>
     <string name="app_name">Dice_Coin</string>
-    <string name="roll">Roll</string>
-    <string name="flip">Flip</string>
+    <string name="roll">ROLL</string>
+    <string name="flip">FLIP</string>
 </resources>

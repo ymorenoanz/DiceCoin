@@ -165,11 +165,13 @@ fun FlipCoin(modifier : Modifier = Modifier){
             modifier = Modifier
                 .height(180.dp)
                 .width(180.dp)
-                //.rotate(angle)
+                //.rotate(angle)02
         )
         Spacer(modifier = Modifier.height(16.dp))
         Button(onClick = { resultCoin = (1..2).random()},
-            modifier = Modifier.height(70.dp).width(140.dp).background(Color(0xffa094b7))) {
+            shape = RoundedCornerShape(50.dp),
+            modifier = Modifier.height(70.dp)
+                .width(140.dp)) {
             Text(stringResource(R.string.flip))
         }
     }

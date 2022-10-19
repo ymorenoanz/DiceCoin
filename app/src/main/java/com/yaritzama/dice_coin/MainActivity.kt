@@ -3,20 +3,23 @@ package com.yaritzama.dice_coin
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.compose.animation.*
+import androidx.compose.animation.core.*
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
-import androidx.compose.material.Button
-import androidx.compose.material.Text
+import androidx.compose.material.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.core.graphics.rotationMatrix
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.yaritzama.MainViewContainerState
 import com.yaritzama.dice_coin.ui.theme.Dice_CoinTheme
@@ -50,7 +53,7 @@ private fun Body(modifier: Modifier= Modifier, vm: MainViewModel) {
                 }
             }
             MainViewContainerState.ViewTwo -> {
-                Text(text = "This is my second view", modifier = Modifier.align(Alignment.Center))
+                CoinPreview()
             }
         }
     }
@@ -70,7 +73,7 @@ private fun Header(modifier: Modifier= Modifier, vm: MainViewModel) {
             vm.switchViews(MainViewContainerState.ViewOne)
         }
         Tabs(
-            title = "Roll a coin", modifier = Modifier
+            title = "Flip a coin", modifier = Modifier
                 .weight(1f)
                 .background(Color.DarkGray) , isSelected = viewState.value == MainViewContainerState.ViewTwo
         ) {
@@ -126,16 +129,48 @@ fun DicePreview() {
     }
 }
 
+
 @Composable
-fun CoinButtonAndImage(modifier : Modifier = Modifier){
- Text("Hello")
+fun FlipCoin(modifier : Modifier = Modifier){
+    var resultCoin by remember { mutableStateOf(1) }
+
+    val imageResource = when(resultCoin){
+        1-> R.drawable.coin_head
+        else -> R.drawable.coin_tail
+    }
+
+    //Animation for rotation
+    val infiniteTransition = rememberInfiniteTransition()
+    val angle by infiniteTransition.animateFloat(
+        initialValue = 0f,
+        targetValue = 360f,
+        animationSpec =
+        infiniteRepeatable(tween(durationMillis = 1000,
+            delayMillis = 1000, easing = LinearEasing),
+            RepeatMode.Restart))
+
+
+    Column(modifier = modifier,
+        horizontalAlignment = Alignment.CenterHorizontally)
+    {
+        Image(painterResource(imageResource), contentDescription = resultCoin.toString(),
+            modifier = Modifier
+                .height(180.dp)
+                .width(180.dp)
+                //.rotate(angle)
+        )
+        Spacer(modifier = Modifier.height(16.dp))
+        Button(onClick = { resultCoin = (1..2).random()}) {
+            Text(stringResource(R.string.flip))
+        }
+    }
 }
 
 @Preview(showBackground = true)
 @Composable
 fun CoinPreview(){
     Dice_CoinTheme {
-        CoinButtonAndImage(modifier = Modifier
+        FlipCoin(modifier = Modifier
             .fillMaxSize()
             .wrapContentSize(Alignment.Center))
     }

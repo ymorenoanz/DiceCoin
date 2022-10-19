@@ -67,7 +67,7 @@ private fun Header(modifier: Modifier= Modifier, vm: MainViewModel) {
 
     Row(modifier = modifier) {
         Tabs(
-            title = "Roll a dice", modifier = Modifier
+            title = "ROLL A DICE", modifier = Modifier
                 .weight(1f)
                 .background(Color.White)
                 .clip(RoundedCornerShape(50)) ,
@@ -76,7 +76,7 @@ private fun Header(modifier: Modifier= Modifier, vm: MainViewModel) {
             vm.switchViews(MainViewContainerState.ViewOne)
         }
         Tabs(
-            title = "Flip a coin", modifier = Modifier
+            title = "FLIP A COIN", modifier = Modifier
                 .weight(1f)
                 .background(Color.White)
                 .clip(RoundedCornerShape(50)),

@@ -49,9 +49,7 @@ private fun Body(modifier: Modifier= Modifier, vm: MainViewModel) {
     Box(modifier = modifier) {
         when(viewState.value){
             MainViewContainerState.ViewOne -> {
-                Column(modifier = Modifier.align(Alignment.Center), verticalArrangement = Arrangement.Center) {
                    DicePreview()
-                }
             }
             MainViewContainerState.ViewTwo -> {
                 CoinPreview()
@@ -66,8 +64,7 @@ private fun Header(modifier: Modifier= Modifier, vm: MainViewModel) {
     val viewState = remember { vm.containerState }
 
     Row(modifier = modifier) {
-        Tabs(
-            title = "ROLL A DICE", modifier = Modifier
+        Tabs(title = "ROLL A DICE", modifier = Modifier
                 .weight(1f)
                 .background(Color.White)
                 .clip(RoundedCornerShape(50)) ,
@@ -75,8 +72,7 @@ private fun Header(modifier: Modifier= Modifier, vm: MainViewModel) {
         ) {
             vm.switchViews(MainViewContainerState.ViewOne)
         }
-        Tabs(
-            title = "FLIP A COIN", modifier = Modifier
+        Tabs(title = "FLIP A COIN", modifier = Modifier
                 .weight(1f)
                 .background(Color.White)
                 .clip(RoundedCornerShape(50)),
@@ -87,7 +83,9 @@ private fun Header(modifier: Modifier= Modifier, vm: MainViewModel) {
 }
 
 @Composable
-fun Tabs(modifier: Modifier = Modifier, title: String, isSelected : Boolean, onClick : () -> Unit)
+fun Tabs(modifier: Modifier = Modifier,
+         title: String, isSelected : Boolean,
+         onClick : () -> Unit)
 {
     Box(modifier = modifier
         .clickable {
@@ -98,7 +96,8 @@ fun Tabs(modifier: Modifier = Modifier, title: String, isSelected : Boolean, onC
         .height(60.dp)
         .padding(vertical = 4.dp, horizontal = 8.dp)
         .clip(RoundedCornerShape(50)).padding(4.dp)) {
-        Text(text = title, modifier = Modifier.align(Alignment.Center), color = Color.White)
+        Text(text = title, modifier = Modifier.align(Alignment.Center)
+            , color = Color.White)
     }
 }
 
@@ -147,16 +146,6 @@ fun FlipCoin(modifier : Modifier = Modifier){
         1-> R.drawable.coin_head
         else -> R.drawable.coin_tail
     }
-
-    /*//Animation for rotation
-    val infiniteTransition = rememberInfiniteTransition()
-    val angle by infiniteTransition.animateFloat(
-        initialValue = 0f,
-        targetValue = 360f,
-        animationSpec =
-        infiniteRepeatable(tween(durationMillis = 1000,
-            delayMillis = 1000, easing = LinearEasing),
-            RepeatMode.Restart))*/
 
     Column(modifier = modifier,
         horizontalAlignment = Alignment.CenterHorizontally)
